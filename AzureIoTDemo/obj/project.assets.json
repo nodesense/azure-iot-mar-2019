@@ -120,6 +120,20 @@
           "lib/netstandard1.3/Microsoft.Azure.Amqp.dll": {}
         }
       },
+      "Microsoft.Azure.Devices/1.17.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Azure.Amqp": "2.3.7",
+          "Microsoft.Azure.Devices.Shared": "1.15.2",
+          "Newtonsoft.Json": "10.0.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Azure.Devices.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Azure.Devices.dll": {}
+        }
+      },
       "Microsoft.Azure.Devices.Client/1.19.0": {
         "type": "package",
         "dependencies": {
@@ -2070,6 +2084,23 @@
         "lib/uap10.0/Microsoft.Azure.Amqp.pri",
         "microsoft.azure.amqp.2.3.7.nupkg.sha512",
         "microsoft.azure.amqp.nuspec"
+      ]
+    },
+    "Microsoft.Azure.Devices/1.17.2": {
+      "sha512": "Fys/BxCZnrNMzNnHIQgJT8Yc2MNYBUNkBel3bN8H1Jf6xAXGtCe+RUxyYHwkfV8lcbFEhAAWqUM/pLHj+SzNZg==",
+      "type": "package",
+      "path": "microsoft.azure.devices/1.17.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net451/Microsoft.Azure.Devices.dll",
+        "lib/net451/Microsoft.Azure.Devices.xml",
+        "lib/netstandard1.3/Microsoft.Azure.Devices.dll",
+        "lib/netstandard1.3/Microsoft.Azure.Devices.xml",
+        "lib/netstandard2.0/Microsoft.Azure.Devices.dll",
+        "lib/netstandard2.0/Microsoft.Azure.Devices.xml",
+        "microsoft.azure.devices.1.17.2.nupkg.sha512",
+        "microsoft.azure.devices.nuspec"
       ]
     },
     "Microsoft.Azure.Devices.Client/1.19.0": {
@@ -6665,7 +6696,9 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
+      "Microsoft.Azure.Devices >= 1.17.2",
       "Microsoft.Azure.Devices.Client >= 1.19.0",
+      "Microsoft.Azure.Devices.Shared >= 1.15.2",
       "Microsoft.NETCore.App >= 2.2.0"
     ]
   },
@@ -6710,9 +6743,17 @@
     "frameworks": {
       "netcoreapp2.2": {
         "dependencies": {
+          "Microsoft.Azure.Devices": {
+            "target": "Package",
+            "version": "[1.17.2, )"
+          },
           "Microsoft.Azure.Devices.Client": {
             "target": "Package",
             "version": "[1.19.0, )"
+          },
+          "Microsoft.Azure.Devices.Shared": {
+            "target": "Package",
+            "version": "[1.15.2, )"
           },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",

@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Azure.Devices.Shared;
 
 namespace AzureIoTDemo
 {
@@ -19,8 +20,9 @@ namespace AzureIoTDemo
         // Upload File to Cloud
         public static DeviceClient s_deviceClient;
 
-        public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
+        //public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
 
+        public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
         public static int interval = 10000;
 
         // Async method to send simulated telemetry
@@ -141,6 +143,28 @@ namespace AzureIoTDemo
 
             Console.WriteLine("Time to upload file: {0}ms\n", watch.ElapsedMilliseconds);
         }
+
+
+        // Update the device twin
+        // Edge device to cloud
+        // Reported properties
+        public static async void ReportStatus(String parentKey, String key, String value)
+        {
+            try
+            {
+                TwinCollection reportedProperties;
+                reportedProperties = new TwinCollection();
+                TwinCollection property = new TwinCollection();
+                Console.WriteLine("Updating " + parentKey + ":" + key + ":" + value);
+                property[key] = value;
+                reportedProperties[parentKey] = property;
+                // call to cloud
+                await s_deviceClient.UpdateReportedPropertiesAsync(reportedProperties);
+            }catch(Exception e)
+            {
+                Console.WriteLine("Error in twin {0}", e.Message);
+            }
+            }
 
     }
 }
