@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices.Client;
+﻿// Program.cs
+using Microsoft.Azure.Devices.Client;
 using System;
 
 namespace AzureIoTDemo

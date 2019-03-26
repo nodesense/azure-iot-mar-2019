@@ -1,4 +1,6 @@
-﻿using System;
+﻿// TempDevice.cs
+using System;
+
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +18,7 @@ namespace AzureIoTDemo
         // Upload File to Cloud
         public static DeviceClient s_deviceClient;
 
-        public readonly static string s_connectionString = "HostName=IoTHubKeertee.azure-devices.net;DeviceId=device-2;SharedAccessKey=k+4dj7i3/+U5A7sWBbPDCb8RNIxWIcjn4VwMJc77HjM=";
+        public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
 
         public static int interval = 5000;
 
