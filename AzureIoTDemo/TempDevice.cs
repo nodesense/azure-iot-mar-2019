@@ -20,9 +20,8 @@ namespace AzureIoTDemo
         // Upload File to Cloud
         public static DeviceClient s_deviceClient;
 
-        //public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
-
-        public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
+ 
+        public readonly static string s_connectionString = "{{{{connection-string}}";
         public static int interval = 10000;
 
         // Async method to send simulated telemetry
