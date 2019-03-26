@@ -10,7 +10,7 @@ namespace AzureIoTDemo
     class Program
     {
         static RegistryManager registryManager;
-        static string connectionString = "HostName=krishiothub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=wNNHSJySx4ZYBdPsjByygTIRZ1CtUn4wSKuj1FfGur8=";
+        static string connectionString = "{{connection-string}}";
 
         public static async Task AddTagsAndQuery()
         {
