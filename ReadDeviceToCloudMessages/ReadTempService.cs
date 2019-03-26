@@ -22,16 +22,19 @@ namespace ReadDeviceToCloudMessages
     // Process data
     class ReadTempService
     {
+        //Endpoint=sb://iothub-ns-vandanaiot-1441107-5875ec609d.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=BHIk8x54TbkVEjoXxJKfe45VmLgSqwQiylzLUZ2L81A=;EntityPath=vandanaiothubibm
+
+
         // Event Hub-compatible endpoint
         // az iot hub show --query properties.eventHubEndpoints.events.endpoint --name {your IoT Hub name}
-        private readonly static string s_eventHubsCompatibleEndpoint = "sb://iothub-ns-krishiothu-1441102-19d672bc68.servicebus.windows.net/";
+        private readonly static string s_eventHubsCompatibleEndpoint = "sb://iothub-ns-vandanaiot-1441107-5875ec609d.servicebus.windows.net/";
 
         // Event Hub-compatible name
         // az iot hub show --query properties.eventHubEndpoints.events.path --name krishiothub
-        private readonly static string s_eventHubsCompatiblePath = "krishiothub";
+        private readonly static string s_eventHubsCompatiblePath = "vandanaiothubibm";
 
         // az iot hub policy show --name iothubowner --query primaryKey --hub-name krishiothub
-        private readonly static string s_iotHubSasKey = "wNNHSJySx4ZYBdPsjByygTIRZ1CtUn4wSKuj1FfGur8=";
+        private readonly static string s_iotHubSasKey = "BHIk8x54TbkVEjoXxJKfe45VmLgSqwQiylzLUZ2L81A=";
         private readonly static string s_iotHubSasKeyName = "iothubowner";
         private static EventHubClient s_eventHubClient;
 
@@ -41,7 +44,8 @@ namespace ReadDeviceToCloudMessages
             // Create the receiver using the default consumer group.
             // For the purposes of this sample, read only messages sent since 
             // the time the receiver is created. Typically, you don't want to skip any messages.
-            var eventHubReceiver = s_eventHubClient.CreateReceiver("$Default", partition, EventPosition.FromEnqueuedTime(DateTime.Now));
+            DateTime fromTime = DateTime.Now.AddHours(-3);
+            var eventHubReceiver = s_eventHubClient.CreateReceiver("$Default", partition, EventPosition.FromEnqueuedTime(fromTime));
             Console.WriteLine("Create receiver on partition: " + partition);
             while (true)
             {

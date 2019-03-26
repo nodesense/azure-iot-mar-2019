@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2B94427-BC3C-4A68-AB53-8400EF08002A}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		logs.csv = logs.csv
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadDeviceToCloudMessages", "ReadDeviceToCloudMessages\ReadDeviceToCloudMessages.csproj", "{3E238401-0098-451A-B9CF-6B9BD1516CE2}"

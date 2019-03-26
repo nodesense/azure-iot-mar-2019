@@ -11,6 +11,7 @@ namespace ReadDeviceToCloudMessages
             Console.WriteLine("Hello World!");
 
             ReadTempService.Start();
+             
             Console.ReadLine();
         }
     }

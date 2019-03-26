@@ -8,6 +8,7 @@ using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace AzureIoTDemo
 {
@@ -20,7 +21,7 @@ namespace AzureIoTDemo
 
         public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
 
-        public static int interval = 5000;
+        public static int interval = 10000;
 
         // Async method to send simulated telemetry
         public static async void SendDeviceToCloudMessagesAsync()
@@ -55,11 +56,90 @@ namespace AzureIoTDemo
 
                 // Send the telemetry message
                 // MQTT, HTTP, AMQP
-                await s_deviceClient.SendEventAsync(message);
+                await s_deviceClient.SendEventAsync(message); //fails if event hub out of service
+                // Produer/Sender/Device, on failure, should store  the messages in local storage
+                // and Retry
                 Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
 
                 await Task.Delay(interval);
             }
+        }
+
+        // Device method, to be invoked by cloud
+
+            // {"msg": "greeting"}
+        public static Task<MethodResponse> HelloWorld(MethodRequest methodRequest, object userContext)
+        {
+            var data = Encoding.UTF8.GetString(methodRequest.Data);
+
+            Console.WriteLine("Received method called " + data);
+
+            data = data.Replace("\"", "\\\""); // " replace with \"
+
+            string result = "{\"result\":\"Got your message: " + data + "\"}";
+            return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+         }
+
+
+       // invoke SetTelemetryInterval
+       // payload could be 1000 or 2000 values in ms
+        // mobile app, send message to cloud to invoke this method
+           public static Task<MethodResponse> SetTelemetryInterval(MethodRequest methodRequest, object userContext)
+            {
+            var data = Encoding.UTF8.GetString(methodRequest.Data);
+            Console.WriteLine("Received method called " + data);
+            // Check the payload is a single integer value
+            if (Int32.TryParse(data, out interval))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Telemetry interval set to {0} seconds", data);
+                Console.ResetColor();
+
+                // Acknowlege the direct method call with a 200 success message
+                string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+            }
+            else
+            {
+                // Acknowlege the direct method call with a 400 error message
+                string result = "{\"result\":\"Invalid parameter\"}";
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+            }
+        }
+
+
+        // Receive Message From cloud
+        public static async void ReceiveC2dAsync()
+        {
+            Console.WriteLine("\nReceiving cloud to device messages from service");
+            while (true)
+            {
+                // Pull message
+                Message receivedMessage = await s_deviceClient.ReceiveAsync();
+                if (receivedMessage == null) continue;
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Received message: {0}",
+                Encoding.ASCII.GetString(receivedMessage.GetBytes()));
+                Console.ResetColor();
+
+                await s_deviceClient.CompleteAsync(receivedMessage);
+            }
+        }
+
+
+        public static async Task UploadFile()
+        {
+            var fileStreamSource = new FileStream("C:\\Users\\krish\\AzureIoTDemo\\logs.csv", FileMode.Open);
+            var fileName = Path.GetFileName(fileStreamSource.Name);
+
+            Console.WriteLine("Uploading File: {0}", fileName);
+
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            await s_deviceClient.UploadToBlobAsync(fileName, fileStreamSource);
+            watch.Stop();
+
+            Console.WriteLine("Time to upload file: {0}ms\n", watch.ElapsedMilliseconds);
         }
 
     }

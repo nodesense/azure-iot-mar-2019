@@ -13,6 +13,16 @@ namespace AzureIoTDemo
             // Connect to the IoT hub using the MQTT protocol
             TempDevice.s_deviceClient = DeviceClient.CreateFromConnectionString(TempDevice.s_connectionString, TransportType.Mqtt);
             TempDevice.SendDeviceToCloudMessagesAsync();
+            // TempDevice.UploadFile();
+
+            // ClientDevice/IoT Device register the method with Cloud/IoT Hub
+
+            TempDevice.s_deviceClient.SetMethodHandlerAsync("HelloWorld", TempDevice.HelloWorld, null).Wait();
+
+            TempDevice.s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval", TempDevice.SetTelemetryInterval, null).Wait();
+
+            // Receive messages from cloud
+            TempDevice.ReceiveC2dAsync();
             Console.ReadLine();
         }
     }
