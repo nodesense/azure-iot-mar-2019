@@ -10,7 +10,10 @@ namespace ReadDeviceToCloudMessages
         {
             Console.WriteLine("Hello World!");
 
-            ReadTempService.Start();
+            // ReadTempService.Start();
+
+            // Consumer data from another event hub
+            ReadAlertTempService.Start();
              
             Console.ReadLine();
         }

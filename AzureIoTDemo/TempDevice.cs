@@ -20,10 +20,9 @@ namespace AzureIoTDemo
         // Upload File to Cloud
         public static DeviceClient s_deviceClient;
 
-        //public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
-
-        public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=tqfcoiEwOvgnCxOsbwkmMaT9ERl2VpymhnsTvJ3reJQ=";
-        public static int interval = 10000;
+         
+        public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=x6kay9VRDVeLoZvvbV+Os5gjlJp/SaXUBdy3kp4Lvns=";
+        public static int interval = 5000;
 
         // Async method to send simulated telemetry
         public static async void SendDeviceToCloudMessagesAsync()
@@ -37,12 +36,14 @@ namespace AzureIoTDemo
             {
                 double currentTemperature = minTemperature + rand.NextDouble() * 15;
                 double currentHumidity = minHumidity + rand.NextDouble() * 20;
+                double energy = 0 + rand.Next(3);
 
                 // Create JSON message
                 var telemetryDataPoint = new
                 {
                     temperature = currentTemperature,
-                    humidity = currentHumidity
+                    humidity = currentHumidity,
+                    energy = energy
                 };
                 // payload, the actual message
                 var messageString = JsonConvert.SerializeObject(telemetryDataPoint);
@@ -50,12 +51,16 @@ namespace AzureIoTDemo
 
                 // put the payload into message (mqtt), transmitted as bytes
                 var message = new Message(Encoding.ASCII.GetBytes(messageString));
+                message.ContentType = "application/json";
+                 
+                message.ContentEncoding = "utf-8";
+
 
                 // custom headers, custom properties, not part of the payload
                 // Add a custom application property to the message.
                 // An IoT hub can filter on these properties without access to the message body.
                 message.Properties.Add("temperatureAlert", (currentTemperature > 30) ? "true" : "false");
-
+                
                 // Send the telemetry message
                 // MQTT, HTTP, AMQP
                 await s_deviceClient.SendEventAsync(message); //fails if event hub out of service

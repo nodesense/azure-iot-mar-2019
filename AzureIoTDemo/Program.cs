@@ -10,7 +10,7 @@ namespace AzureIoTDemo
     class Program
     {
         static RegistryManager registryManager;
-        static string connectionString = "HostName=krishiothub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=wNNHSJySx4ZYBdPsjByygTIRZ1CtUn4wSKuj1FfGur8=";
+        static string connectionString = "HostName=krishiothub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=P/XEf5Az4g5YwiqfDFGw8SClKv2x4jfUcbzBISmcECY=";
 
         public static async Task AddTagsAndQuery()
         {
@@ -46,20 +46,20 @@ namespace AzureIoTDemo
             Console.WriteLine("IoT Hub Quickstarts #1 - Simulated device. Ctrl-C to exit.\n");
              
             registryManager = RegistryManager.CreateFromConnectionString(connectionString);
-            // AddTagsAndQuery().Wait();
+            AddTagsAndQuery().Wait();
 
             // DeviceQuery().Wait();
 
             // Connect to the IoT hub using the MQTT protocol
             TempDevice.s_deviceClient = DeviceClient.CreateFromConnectionString(TempDevice.s_connectionString, Microsoft.Azure.Devices.Client.TransportType.Mqtt);
 
-            TempDevice.ReportStatus("measurement", "gas", "11L");
-            TempDevice.ReportStatus("measurement", "temp", "31C");
+            TempDevice.ReportStatus("measurement", "gas", "11");
+            TempDevice.ReportStatus("measurement", "temp", "40");
             TempDevice.ReportStatus("battery", "status", "Excellent");
        
-            TempDevice.ReportStatus("battery", "life", "365 days left");
+            //TempDevice.ReportStatus("battery", "life", "365 days left");
 
-            //TempDevice.SendDeviceToCloudMessagesAsync();
+            TempDevice.SendDeviceToCloudMessagesAsync();
             // TempDevice.UploadFile();
 
             // ClientDevice/IoT Device register the method with Cloud/IoT Hub

@@ -1,5 +1,5 @@
 ﻿// Project: ReadDeviceToCloudMessages
-// ReadDeviceToCloudMessages.cs
+// ReadAlertTempService.cs
 
 
 using System;
@@ -20,21 +20,23 @@ namespace ReadDeviceToCloudMessages
     // read the messages published by TempDevice
     // console log all the messages
     // Process data
-    class ReadTempService
+    class ReadAlertTempService
     {
         //Endpoint=sb://iothub-ns-vandanaiot-1441107-5875ec609d.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=BHIk8x54TbkVEjoXxJKfe45VmLgSqwQiylzLUZ2L81A=;EntityPath=vandanaiothubibm
 
 
         // Event Hub-compatible endpoint
         // az iot hub show --query properties.eventHubEndpoints.events.endpoint --name {your IoT Hub name}
-        
+
+       // Endpoint=sb://iotdatapipeline.servicebus.windows.net/;SharedAccessKeyName=All;SharedAccessKey=wSQjx+FThYWA98ZieWJ+pc+7vJ9vcdMfRQ4FJjAcxjs=;EntityPath=alerts
+
         // Event Hub-compatible name
         // az iot hub show --query properties.eventHubEndpoints.events.path --name krishiothub
-        private readonly static string s_eventHubsCompatiblePath = "krishiothub";
+        private readonly static string s_eventHubsCompatiblePath = "alerts";
 
         // az iot hub policy show --name iothubowner --query primaryKey --hub-name krishiothub
-        private readonly static string s_iotHubSasKey = "P/XEf5Az4g5YwiqfDFGw8SClKv2x4jfUcbzBISmcECY=";
-        private readonly static string s_iotHubSasKeyName = "iothubowner";
+        private readonly static string s_iotHubSasKey = "wSQjx+FThYWA98ZieWJ+pc+7vJ9vcdMfRQ4FJjAcxjs=";
+        private readonly static string s_iotHubSasKeyName = "All";
         private static EventHubClient s_eventHubClient;
 
         private static async Task ReceiveMessagesFromDeviceAsync(string partition, CancellationToken ct)
@@ -43,10 +45,10 @@ namespace ReadDeviceToCloudMessages
             // Create the receiver using the default consumer group.
             // For the purposes of this sample, read only messages sent since 
             // the time the receiver is created. Typically, you don't want to skip any messages.
-            // DateTime fromTime = DateTime.Now.AddHours(-3);
+            //DateTime fromTime = DateTime.Now.AddHours(-3);
             DateTime fromTime = DateTime.Now;
 
-            var eventHubReceiver = s_eventHubClient.CreateReceiver("billinggroup", partition, EventPosition.FromEnqueuedTime(fromTime));
+            var eventHubReceiver = s_eventHubClient.CreateReceiver("$Default", partition, EventPosition.FromEnqueuedTime(fromTime));
             Console.WriteLine("Create receiver on partition: " + partition);
             while (true)
             {
@@ -78,7 +80,7 @@ namespace ReadDeviceToCloudMessages
             }
         }
 
-        static String s_eventHubsCompatibleEndpoint = "sb://iothub-ns-krishiothu-1450343-f410c858c3.servicebus.windows.net/";
+        static String s_eventHubsCompatibleEndpoint = "sb://iotdatapipeline.servicebus.windows.net/";
 
         public static async void Start()
         {
