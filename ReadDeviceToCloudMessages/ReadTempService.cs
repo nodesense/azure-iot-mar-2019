@@ -22,11 +22,11 @@ namespace ReadDeviceToCloudMessages
     // Process data
     class ReadTempService
     {
-        //Endpoint=sb://iothub-ns-vandanaiot-1441107-5875ec609d.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=BHIk8x54TbkVEjoXxJKfe45VmLgSqwQiylzLUZ2L81A=;EntityPath=vandanaiothubibm
-
+ 
 
         // Event Hub-compatible endpoint
         // az iot hub show --query properties.eventHubEndpoints.events.endpoint --name {your IoT Hub name}
+
         
         // Event Hub-compatible name
         // az iot hub show --query properties.eventHubEndpoints.events.path --name krishiothub
@@ -34,6 +34,13 @@ namespace ReadDeviceToCloudMessages
 
         // az iot hub policy show --name iothubowner --query primaryKey --hub-name krishiothub
         private readonly static string s_iotHubSasKey = "P/XEf5Az4g5YwiqfDFGw8SClKv2x4jfUcbzBISmcECY=";
+ 
+        // Event Hub-compatible name
+        // az iot hub show --query properties.eventHubEndpoints.events.path --name krishiothub
+        //private readonly static string s_eventHubsCompatiblePath = "{{path}}";
+
+        // az iot hub policy show --name iothubowner --query primaryKey --hub-name krishiothub
+        //private readonly static string s_iotHubSasKey = "{{key}}";
         private readonly static string s_iotHubSasKeyName = "iothubowner";
         private static EventHubClient s_eventHubClient;
 

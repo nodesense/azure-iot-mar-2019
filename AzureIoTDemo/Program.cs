@@ -10,8 +10,9 @@ namespace AzureIoTDemo
     class Program
     {
         static RegistryManager registryManager;
+ 
         static string connectionString = "HostName=krishiothub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=P/XEf5Az4g5YwiqfDFGw8SClKv2x4jfUcbzBISmcECY=";
-
+ 
         public static async Task AddTagsAndQuery()
         {
             var twin = await registryManager.GetTwinAsync("device-1");

@@ -19,10 +19,10 @@ namespace AzureIoTDemo
         // Method Invocation
         // Upload File to Cloud
         public static DeviceClient s_deviceClient;
-
          
         public readonly static string s_connectionString = "HostName=krishiothub.azure-devices.net;DeviceId=device-1;SharedAccessKey=x6kay9VRDVeLoZvvbV+Os5gjlJp/SaXUBdy3kp4Lvns=";
         public static int interval = 5000;
+ 
 
         // Async method to send simulated telemetry
         public static async void SendDeviceToCloudMessagesAsync()
